@@ -16,7 +16,11 @@ list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 include(CTest)
 include(Catch)
 
-add_executable(gb_tests tests/gb/cpu/registers_test.cpp)
+add_executable(
+  gb_tests 
+  tests/gb/cpu/registers_test.cpp 
+  src/gb/cpu/registers.cpp
+)
 target_include_directories(gb_tests PRIVATE include)
 target_link_libraries(gb_tests PRIVATE Catch2::Catch2WithMain)
 catch_discover_tests(gb_tests)
