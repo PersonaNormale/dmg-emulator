@@ -1,11 +1,15 @@
 #pragma once
 #include <cstdint>
+#include <gb/cpu/operand_types.hpp>
 
 namespace gb::cpu {
 
-enum class Reg8 : uint8_t { A, B, C, D, E, H, L };
-enum class Reg16 : uint8_t { AF, BC, DE, HL, SP, PC };
+// Flag here because it isn't an operand type but an implementation
+// For conditions
 enum class Flag : uint8_t { Z = 7, N = 6, H = 5, C = 4 };
+
+using operand_types::Reg8;
+using operand_types::Reg16;
 
 class Registers final {
 public:
