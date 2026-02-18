@@ -3,9 +3,9 @@
 
 namespace gb::cpu {
 
-enum class Flag : uint8_t { Z = 7, N = 6, H = 5, C = 4 };
-enum class Reg8 : uint8_t { A, B, C, D, E, H, L };
-enum class Reg16 : uint8_t { AF, BC, DE, HL, SP, PC };
+enum class Flag { Z = 7, N = 6, H = 5, C = 4 };
+enum class Reg8 { A, B, C, D, E, H, L };
+enum class Reg16 { AF, BC, DE, HL, SP, PC };
 
 class Registers final {
 public:
