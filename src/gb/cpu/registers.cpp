@@ -42,18 +42,25 @@ void Registers::write8(Reg8 reg, uint8_t value) noexcept {
   switch (reg) {
   case Reg8::A:
     a_ = value;
+    break;
   case Reg8::B:
     b_ = value;
+    break;
   case Reg8::C:
     c_ = value;
+    break;
   case Reg8::D:
     d_ = value;
+    break;
   case Reg8::E:
     e_ = value;
+    break;
   case Reg8::H:
     h_ = value;
+    break;
   case Reg8::L:
     l_ = value;
+    break;
   }
 }
 
