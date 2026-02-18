@@ -20,8 +20,8 @@ Game Boy DMG emulator for `.gb` cartridges.
 Test build:
 
 ```bash
-cmake -S . -B build-test -DCMAKE_BUILD_TYPE=Debug
-cmake --build build-test --parallel
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+cmake --build build --parallel
 ````
 
 ## Tests
@@ -29,7 +29,7 @@ cmake --build build-test --parallel
 This project uses Catch2 and integrates with CTest.
 
 ```bash
-ctest --test-dir build-test --output-on-failure
+ctest --test-dir build --output-on-failure
 ```
 
 ## Code Coverage
