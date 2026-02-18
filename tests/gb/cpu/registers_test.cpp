@@ -1,5 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <gb/cpu/registers.hpp>
+#include <gb/cpu/operand_types.hpp>
 
 using namespace gb::cpu;
 
