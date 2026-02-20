@@ -38,6 +38,7 @@ if(BUILD_TESTING)
 
   add_executable(gb_tests
     tests/gb/cpu/registers_test.cpp
+    tests/gb/cpu/operand_types_test.cpp
   )
   target_compile_features(gb_tests PRIVATE cxx_std_20)
   target_link_libraries(gb_tests

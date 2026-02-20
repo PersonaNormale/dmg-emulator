@@ -57,12 +57,12 @@ xdg-open build-cov/coverage/index.html
 
 * CPU register file
 
-  * 8-bit registers: A, B, C, D, E, H, L
-  * F is accessed via flags and as part of AF; the lower nibble of F is always zero
-  * 16-bit pairs: AF, BC, DE, HL, plus SP and PC
-  * Flags: Z, N, H, C
+* Instruction Operand Types
 
-* Unit tests for register mapping and flags
+* Unit tests for:
+
+    * Register mapping and flags
+    * Operand Types 
 
 ## References
 

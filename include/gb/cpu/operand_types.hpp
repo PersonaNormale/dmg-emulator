@@ -4,31 +4,34 @@
 #include <cstdint>
 #include <cstdlib>
 #include <source_location>
+#include <stdexcept>
 #include <type_traits>
 
 namespace gb::cpu::operand_types {
 
 namespace detail {
 
-// Contract checks are for internal invariants (decode/dispatch bugs).
-// They must fail fast in both Debug and Release builds.
-[[noreturn]] inline void contract_violation(
-    std::source_location /*loc*/ = std::source_location::current()) noexcept {
-  std::abort();
+struct contract_error final : std::logic_error {
+  std::source_location loc;
+  explicit contract_error(std::source_location l)
+      : std::logic_error("Contract Violation"), loc(l) {}
+};
+
+[[noreturn]] inline void
+contract_violation(std::source_location loc = std::source_location::current()) {
+  throw contract_error{loc};
 }
 
-constexpr void require(bool cond,
-                       std::source_location loc = std::source_location::current()) noexcept {
-  assert(cond);
-  if (!cond) {
+constexpr void
+require(bool cond, std::source_location loc = std::source_location::current()) {
+  if (!cond)
     contract_violation(loc);
-  }
 }
 
 template <std::uint8_t MaxExclusive>
-[[nodiscard]] constexpr std::uint8_t checked_u8(
-    std::uint8_t v,
-    std::source_location loc = std::source_location::current()) noexcept {
+[[nodiscard]] constexpr std::uint8_t
+checked_u8(std::uint8_t v,
+           std::source_location loc = std::source_location::current()) {
   require(v < MaxExclusive, loc);
   return v;
 }
@@ -89,12 +92,13 @@ enum class Cond : std::uint8_t {
 
 // 3-bit field extracted from the opcode.
 // Tagging prevents mixing semantically different 3-bit fields.
-template <class Tag>
-class U3 {
+template <class Tag> class U3 {
 public:
-  explicit constexpr U3(std::uint8_t x) noexcept : v_{detail::checked_u8<8>(x)} {}
+  explicit constexpr U3(std::uint8_t x) : v_{detail::checked_u8<8>(x)} {}
 
-  [[nodiscard]] constexpr auto value() const noexcept -> std::uint8_t { return v_; }
+  [[nodiscard]] constexpr auto value() const noexcept -> std::uint8_t {
+    return v_;
+  }
 
   friend constexpr auto operator==(U3, U3) noexcept -> bool = default;
 
@@ -102,8 +106,8 @@ private:
   std::uint8_t v_{0};
 };
 
-struct BitIndex3Tag {};  // b3
-struct Target3Tag {};    // tgt3 (RST target / 8)
+struct BitIndex3Tag {}; // b3
+struct Target3Tag {};   // tgt3 (RST target / 8)
 
 using Index3Bit = U3<BitIndex3Tag>;
 using Target3Bit = U3<Target3Tag>;
@@ -113,7 +117,9 @@ class Imm8 {
 public:
   explicit constexpr Imm8(std::uint8_t x) noexcept : v_{x} {}
 
-  [[nodiscard]] constexpr auto value() const noexcept -> std::uint8_t { return v_; }
+  [[nodiscard]] constexpr auto value() const noexcept -> std::uint8_t {
+    return v_;
+  }
 
   friend constexpr auto operator==(Imm8, Imm8) noexcept -> bool = default;
 
@@ -125,7 +131,9 @@ class Imm16 {
 public:
   explicit constexpr Imm16(std::uint16_t x) noexcept : v_{x} {}
 
-  [[nodiscard]] constexpr auto value() const noexcept -> std::uint16_t { return v_; }
+  [[nodiscard]] constexpr auto value() const noexcept -> std::uint16_t {
+    return v_;
+  }
 
   friend constexpr auto operator==(Imm16, Imm16) noexcept -> bool = default;
 
@@ -143,7 +151,9 @@ public:
   explicit constexpr Imm8Signed(std::int8_t x) noexcept
       : raw_{static_cast<std::uint8_t>(x)} {}
 
-  [[nodiscard]] constexpr auto raw() const noexcept -> std::uint8_t { return raw_; }
+  [[nodiscard]] constexpr auto raw() const noexcept -> std::uint8_t {
+    return raw_;
+  }
 
   [[nodiscard]] constexpr auto value_i16() const noexcept -> std::int16_t {
     return (raw_ < 0x80) ? static_cast<std::int16_t>(raw_)
@@ -154,7 +164,8 @@ public:
     return static_cast<std::int8_t>(value_i16()); // guaranteed in [-128, 127]
   }
 
-  friend constexpr auto operator==(Imm8Signed, Imm8Signed) noexcept -> bool = default;
+  friend constexpr auto operator==(Imm8Signed, Imm8Signed) noexcept
+      -> bool = default;
 
 private:
   std::uint8_t raw_{0};
