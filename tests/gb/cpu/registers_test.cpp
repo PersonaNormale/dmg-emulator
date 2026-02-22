@@ -1,6 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
 #include <gb/cpu/registers.hpp>
-#include <gb/cpu/operand_types.hpp>
 
 using namespace gb::cpu;
 
@@ -33,7 +32,7 @@ TEST_CASE("CPU Registers: Mapping and Flag") {
     REQUIRE(r.read16(Reg16::DE) == 0xBEEF);
   }
 
-  SECTION("DE: write8 updates read16(BC)") {
+  SECTION("DE: write8 updates read16(DE)") {
     r.write8(Reg8::D, 0xFE);
     r.write8(Reg8::E, 0xDC);
     REQUIRE(r.read16(Reg16::DE) == 0xFEDC);
@@ -46,7 +45,7 @@ TEST_CASE("CPU Registers: Mapping and Flag") {
     REQUIRE(r.read16(Reg16::HL) == 0xBEEF);
   }
 
-  SECTION("HL: write8 updates read16(BC)") {
+  SECTION("HL: write8 updates read16(HL)") {
     r.write8(Reg8::H, 0xFE);
     r.write8(Reg8::L, 0xDC);
     REQUIRE(r.read16(Reg16::HL) == 0xFEDC);

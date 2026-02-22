@@ -24,7 +24,7 @@ private:
   uint8_t a_{}, f_{}, b_{}, c_{}, d_{}, e_{}, h_{}, l_{};
   uint16_t sp_{}, pc_{};
 
-  // Set 0 the lower nibble of the F register
+  // Keep the lower nibble of the register F at 0
   void sanitize_f() noexcept;
 };
 

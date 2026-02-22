@@ -1,6 +1,5 @@
 #include <cstdint>
 #include <gb/cpu/registers.hpp>
-#include <sys/types.h>
 
 namespace gb::cpu {
 
@@ -14,7 +13,7 @@ void Registers::reset() noexcept {
   a_ = f_ = b_ = c_ = d_ = e_ = h_ = l_ = 0;
   sp_ = pc_ = 0;
   sanitize_f();
-};
+}
 
 uint8_t Registers::read8(Reg8 reg) const noexcept {
   switch (reg) {
@@ -132,11 +131,11 @@ void Registers::set_flag(Flag flag, bool value) noexcept {
   // so shifting by that positions tells where in the 8 bit register the
   // bit flag will be to be checked
   // Example -> to set Z flag
-  // 0000 0001 shifted by 7 position -> // 1000 0000 
+  // 0000 0001 shifted by 7 position -> // 1000 0000
   const auto mask = uint8_t(1) << uint8_t(flag);
 
   f_ = value ? uint8_t(f_ | mask) : uint8_t(f_ & ~mask);
-  
+
   sanitize_f();
 }
 
